@@ -29,6 +29,11 @@ public class MainApp {
         Menu menue2DropDown = new Menu(shell, SWT.DROP_DOWN);
         menue2Item.setMenu(menue2DropDown);
 
+        MenuItem menue4Item = new MenuItem(menuBar, SWT.CASCADE);
+        menue4Item.setText("Menue4");
+        Menu menue4DropDown = new Menu(shell, SWT.DROP_DOWN);
+        menue4Item.setMenu(menue4DropDown);
+
         shell.open();
 
         while (!shell.isDisposed()) {
