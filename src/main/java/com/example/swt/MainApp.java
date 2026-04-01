@@ -1,0 +1,42 @@
+package com.example.swt;
+
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
+import org.eclipse.swt.widgets.Shell;
+
+public class MainApp {
+
+    public static void main(String[] args) {
+
+        Display display = new Display();
+
+        Shell shell = new Shell(display);
+        shell.setText("SWT MenuBar Application");
+        shell.setSize(600, 400);
+
+        Menu menuBar = new Menu(shell, SWT.BAR);
+        shell.setMenuBar(menuBar);
+
+        MenuItem menue1Item = new MenuItem(menuBar, SWT.CASCADE);
+        menue1Item.setText("Menue1");
+        Menu menue1DropDown = new Menu(shell, SWT.DROP_DOWN);
+        menue1Item.setMenu(menue1DropDown);
+
+        MenuItem menue2Item = new MenuItem(menuBar, SWT.CASCADE);
+        menue2Item.setText("Menue2");
+        Menu menue2DropDown = new Menu(shell, SWT.DROP_DOWN);
+        menue2Item.setMenu(menue2DropDown);
+
+        shell.open();
+
+        while (!shell.isDisposed()) {
+            if (!display.readAndDispatch()) {
+                display.sleep();
+            }
+        }
+
+        display.dispose();
+    }
+}
