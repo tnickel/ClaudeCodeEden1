@@ -6,47 +6,57 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.Shell;
 
+/**
+ * Einstiegspunkt der SWT-Menubar-Anwendung.
+ * Erstellt das Hauptfenster mit einer Menuleiste und startet die SWT-Event-Loop.
+ */
 public class MainApp {
 
+    private static final String WINDOW_TITLE = "SWT MenuBar Application";
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 400;
+
     public static void main(String[] args) {
-
         Display display = new Display();
+        try {
+            Shell shell = createShell(display);
+            createMenuBar(shell);
+            shell.open();
 
+            // SWT-Event-Loop: verarbeitet UI-Ereignisse bis das Fenster geschlossen wird.
+            while (!shell.isDisposed()) {
+                if (!display.readAndDispatch()) {
+                    display.sleep();
+                }
+            }
+        } finally {
+            display.dispose();
+        }
+    }
+
+    private static Shell createShell(Display display) {
         Shell shell = new Shell(display);
-        shell.setText("SWT MenuBar Application");
-        shell.setSize(600, 400);
+        shell.setText(WINDOW_TITLE);
+        shell.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        return shell;
+    }
 
+    private static void createMenuBar(Shell shell) {
         Menu menuBar = new Menu(shell, SWT.BAR);
         shell.setMenuBar(menuBar);
+        addMenuItem(shell, menuBar, "Menu1");
+        addMenuItem(shell, menuBar, "Menu2");
+        addMenuItem(shell, menuBar, "Menu3");
+        addMenuItem(shell, menuBar, "Menu4");
+    }
 
-        MenuItem menue1Item = new MenuItem(menuBar, SWT.CASCADE);
-        menue1Item.setText("Menue1");
-        Menu menue1DropDown = new Menu(shell, SWT.DROP_DOWN);
-        menue1Item.setMenu(menue1DropDown);
-
-        MenuItem menue2Item = new MenuItem(menuBar, SWT.CASCADE);
-        menue2Item.setText("Menue2");
-        Menu menue2DropDown = new Menu(shell, SWT.DROP_DOWN);
-        menue2Item.setMenu(menue2DropDown);
-
-        MenuItem menue3Item = new MenuItem(menuBar, SWT.CASCADE);
-        menue3Item.setText("Menue3");
-        Menu menue3DropDown = new Menu(shell, SWT.DROP_DOWN);
-        menue3Item.setMenu(menue3DropDown);
-
-        MenuItem menue4Item = new MenuItem(menuBar, SWT.CASCADE);
-        menue4Item.setText("Menue4");
-        Menu menue4DropDown = new Menu(shell, SWT.DROP_DOWN);
-        menue4Item.setMenu(menue4DropDown);
-
-        shell.open();
-
-        while (!shell.isDisposed()) {
-            if (!display.readAndDispatch()) {
-                display.sleep();
-            }
-        }
-
-        display.dispose();
+    private static void addMenuItem(Shell shell, Menu menuBar, String label) {
+        MenuItem item = new MenuItem(menuBar, SWT.CASCADE);
+        item.setText(label);
+        Menu dropDown = new Menu(shell, SWT.DROP_DOWN);
+        item.setMenu(dropDown);
+        // Platzhalter-Eintrag, damit das Drop-Down sichtbar ist
+        MenuItem placeholder = new MenuItem(dropDown, SWT.PUSH);
+        placeholder.setText(label + " Item 1");
     }
 }
